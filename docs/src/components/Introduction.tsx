@@ -44,7 +44,7 @@ export const Introduction = () => {
             Get Started
           </Button>
           <a 
-            href="https://github.com/ADesai-07/andhera-react" 
+            href="https://github.com/bee-logical/andhera-react" 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg font-medium transition-colors"
@@ -187,6 +187,7 @@ function SearchInput() {
             { name: "Snackbar", id: "snackbar" },
             { name: "Toggle Button", id: "toggle-button" },
             { name: "Toggle Switch", id: "toggle-switch" },
+            { name: "Chip", id: "chip" },
           ].map((component) => (
             <button
               key={component.id}

@@ -101,13 +101,20 @@ export const ComponentDetail = ({ doc }: { doc: ComponentDoc }) => {
         </div>
 
         <div className="flex gap-2 max-[768px]:flex-col">
-          <button className="flex items-center gap-2 px-5 py-2.5 border-none rounded-lg text-sm font-normal leading-tight tracking-wide cursor-pointer transition-all bg-[#404040] text-[#ffcb00] hover:bg-[#4a4a4a]
-            max-[480px]:w-full max-[480px]:justify-center max-[480px]:px-3.5 max-[480px]:py-2.5 max-[480px]:text-[13px]
-            max-[768px]:w-full max-[768px]:justify-center max-[768px]:px-4 max-[768px]:py-3
-            min-[1921px]:px-7 min-[1921px]:py-3 min-[1921px]:text-[15px]">
+          <a
+            href={doc.githubUrl || "https://github.com/bee-logical/andhera-react"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex items-center gap-2 px-5 py-2.5 border-none rounded-lg text-sm font-normal leading-tight tracking-wide transition-all bg-[#404040] text-[#ffcb00] hover:bg-[#4a4a4a]
+              max-[480px]:w-full max-[480px]:justify-center max-[480px]:px-3.5 max-[480px]:py-2.5 max-[480px]:text-[13px]
+              max-[768px]:w-full max-[768px]:justify-center max-[768px]:px-4 max-[768px]:py-3
+              min-[1921px]:px-7 min-[1921px]:py-3 min-[1921px]:text-[15px]
+              ${doc.githubUrl ? "" : "pointer-events-none opacity-60"}`}
+            aria-disabled={!doc.githubUrl}
+          >
             <GithubIcon className="w-[18px] h-[18px] min-[1921px]:w-5 min-[1921px]:h-5" />
             <span>Open GitHub</span>
-          </button>
+          </a>
         </div>
       </section>
 

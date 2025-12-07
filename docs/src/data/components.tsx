@@ -81,6 +81,7 @@ export interface ComponentDoc {
   props?: ComponentPropRow[];
   tags?: string[];
   componentName?: string; // Actual component name for imports
+  githubUrl?: string;
 }
 
 const statusLabelMap: Record<ComponentStatus, string> = {
@@ -147,6 +148,7 @@ export interface SimpleDoc {
     definition: string;
     description: string;
   }[];
+  githubUrl?: string;
 }
 
 const docs: SimpleDoc[] = [
@@ -3729,6 +3731,21 @@ const filteredComponentIds = [
   "toggle-switch"
 ];
 
+const githubBaseUrl = "https://github.com/bee-logical/andhera-react/tree/main/src/components";
+
+const githubPathMap: Record<string, string> = {
+  button: "button/buttons.tsx",
+  checkbox: "checkbox/checkboxs.tsx",
+  chip: "chip/Chip.tsx",
+  dialog: "dialog/BeeDialog.tsx",
+  input: "input/BeeInput.tsx",
+  "radio-group": "radio/radioGroup.tsx",
+  slider: "slider/Slider.tsx",
+  snackbar: "snackbar/BeeSnackbar.tsx",
+  "toggle-button": "toggle-button/toggleButton.tsx",
+  "toggle-switch": "toggleSwitch/ToggleSwitch.tsx",
+};
+
 const filteredDocs = docs.filter(doc => filteredComponentIds.includes(doc.id))
   .sort((a, b) => a.title.localeCompare(b.title));
 
@@ -3736,6 +3753,7 @@ export const componentDocs: ComponentDoc[] = filteredDocs.map((doc) => ({
   ...doc,
   keywords: doc.keywords ?? [doc.title.toLowerCase()],
   props: doc.props ?? [],
+  githubUrl: githubPathMap[doc.id] ? `${githubBaseUrl}/${githubPathMap[doc.id]}` : undefined,
 }));
 
 function AccordionPreview() {

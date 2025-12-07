@@ -3,7 +3,7 @@
 A composable React component library built with Tailwind CSS, designed for product teams that ship fast.
 
 [![npm version](https://img.shields.io/npm/v/andhera-react.svg)](https://www.npmjs.com/package/andhera-react)
-[![license](https://img.shields.io/npm/l/andhera-react.svg)](https://github.com/ADesai-07/andhera-react/blob/main/LICENSE)
+[![license](https://img.shields.io/npm/l/andhera-react.svg)](https://github.com/bee-logical/andhera-react/blob/main/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
 ## ✨ Features
@@ -377,15 +377,15 @@ function App() {
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](https://github.com/ADesai-07/andhera-react/blob/main/CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](https://github.com/bee-logical/andhera-react/blob/main/CONTRIBUTING.md) for details.
 
 ## Related Packages
 
-- [andhera-angular](https://github.com/ADesai-07/andhera-angular) – Angular version of Andhera UI
+- [andhera-angular](https://github.com/bee-logical/andhera-angular) – Angular version of Andhera UI
 
 ## License
 
-MIT © [Andhera Team](https://github.com/ADesai-07)
+MIT © [Andhera Team](https://github.com/bee-logical)
 
 ---
 
