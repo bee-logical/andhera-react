@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "ESNext",
+    "lib": ["ES2019", "DOM", "DOM.Iterable"],
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "declaration": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@/components": ["components/index"],
+      "@/components/*": ["components/*"],
+      "@/hooks": ["hooks/index"],
+      "@/hooks/*": ["hooks/*"],
+      "@/theme": ["theme/index"],
+      "@/theme/*": ["theme/*"],
+      "@/utils": ["utils/index"],
+      "@/utils/*": ["utils/*"],
+      "@/types": ["types/index"],
+      "@/types/*": ["types/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["dist", "node_modules"]
+}

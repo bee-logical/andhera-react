@@ -1,0 +1,10 @@
+src/**/*.test.*
+src/**/*.stories.*
+node_modules
+src/**/*.spec.*
+.env
+.env.*
+*.log
+.vscode
+husky
+scripts

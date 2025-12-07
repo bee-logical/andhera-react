@@ -1,0 +1,309 @@
+.breadcrumb {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  width: 100%;
+  min-width: 0;
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.breadcrumb-link,
+.breadcrumb-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.breadcrumb-link:hover {
+  color: #374151;
+}
+
+.breadcrumb-item--active .breadcrumb-current {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.breadcrumb-separator {
+  display: inline-flex;
+  align-items: center;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.breadcrumb-separator--slash {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.breadcrumb-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.breadcrumb-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.breadcrumb-label {
+  line-height: 1;
+}
+
+/* Home icon specific styles */
+.breadcrumb-item--home .breadcrumb-link {
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.breadcrumb-item--home .breadcrumb-link:hover {
+  background-color: #f3f4f6;
+}
+
+/* Size variants */
+.breadcrumb--large .breadcrumb-link,
+.breadcrumb--large .breadcrumb-current {
+  font-size: 16px;
+}
+
+.breadcrumb--large .breadcrumb-separator {
+  font-size: 16px;
+}
+
+.breadcrumb--large .breadcrumb-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.breadcrumb--large .breadcrumb-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Variant: With Icons */
+.breadcrumb--with-icons .breadcrumb-icon {
+  color: #6b7280;
+}
+
+.breadcrumb--with-icons .breadcrumb-item--active .breadcrumb-icon {
+  color: #3b82f6;
+}
+
+/* Variant: Pills */
+.breadcrumb--pills .breadcrumb-item {
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+  padding: 6px 16px;
+  position: relative;
+}
+
+.breadcrumb--pills .breadcrumb-link,
+.breadcrumb--pills .breadcrumb-current {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.breadcrumb--pills .breadcrumb-item--active {
+  background-color: #3b82f6;
+}
+
+.breadcrumb--pills .breadcrumb-item--active .breadcrumb-current {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.breadcrumb--pills .breadcrumb-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 8px solid #3b82f6;
+  z-index: 1;
+}
+
+.breadcrumb--pills .breadcrumb-item:not(.breadcrumb-item--active):not(:last-child)::after {
+  border-left-color: #d1d5db;
+}
+
+/* Variant: Arrows */
+.breadcrumb--arrows .breadcrumb-list {
+  gap: 0;
+}
+
+.breadcrumb--arrows .breadcrumb-item {
+  position: relative;
+  background-color: #f3f4f6;
+  padding: 8px 16px 8px 24px;
+  margin-right: 8px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+}
+
+.breadcrumb--arrows .breadcrumb-item:first-child {
+  padding-left: 16px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+}
+
+.breadcrumb--arrows .breadcrumb-item:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+  margin-right: 0;
+}
+
+.breadcrumb--arrows .breadcrumb-item:first-child:last-child {
+  clip-path: none;
+}
+
+.breadcrumb--arrows .breadcrumb-link,
+.breadcrumb--arrows .breadcrumb-current {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.breadcrumb--arrows .breadcrumb-item--active {
+  background-color: #3b82f6;
+}
+
+.breadcrumb--arrows .breadcrumb-item--active .breadcrumb-current {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.breadcrumb--arrows .breadcrumb-item:hover:not(.breadcrumb-item--active) {
+  background-color: #e5e7eb;
+}
+
+/* Variant: With Steps */
+.breadcrumb--with-steps .breadcrumb-list {
+  gap: 0;
+  position: relative;
+}
+
+.breadcrumb--with-steps .breadcrumb-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  position: relative;
+}
+
+.breadcrumb--with-steps .breadcrumb-link,
+.breadcrumb--with-steps .breadcrumb-current {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.breadcrumb--with-steps .breadcrumb-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(50% + var(--breadcrumb-step-line-width, 20px));
+  top: 16px;
+  width: calc(100% - calc(var(--breadcrumb-step-line-width, 20px) * 2));
+  height: 2px;
+  background-color: #e5e7eb;
+  z-index: 0;
+}
+
+/* Add arrow icon in the middle of the step line */
+
+
+.breadcrumb--with-steps .breadcrumb-item--completed::after {
+  background-color: #10b981;
+}
+
+.breadcrumb-step-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid #e5e7eb;
+  position: relative;
+  z-index: 1;
+  margin-left: 0;
+  margin-right: var(--breadcrumb-step-line-width, 20px);
+}
+
+.breadcrumb-item--active .breadcrumb-step-indicator {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.breadcrumb-step-indicator--completed {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.breadcrumb--with-steps.breadcrumb--large .breadcrumb-step-indicator {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.breadcrumb--with-steps.breadcrumb--large .breadcrumb-item:not(:last-child)::after {
+  top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .breadcrumb-list {
+    gap: 4px;
+  }
+  
+  .breadcrumb-link,
+  .breadcrumb-current {
+    font-size: 12px;
+  }
+  
+  .breadcrumb--with-steps .breadcrumb-label {
+    display: none;
+  }
+  
+  .breadcrumb--pills .breadcrumb-item,
+  .breadcrumb--arrows .breadcrumb-item {
+    padding: 6px 12px 6px 16px;
+  }
+}

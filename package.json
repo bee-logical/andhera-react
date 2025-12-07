@@ -1,0 +1,96 @@
+{
+  "name": "andhera-react",
+  "version": "1.0.10",
+  "description": "Andhera UI – A composable React component library built with Tailwind CSS",
+  "author": "Andhera Team",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "tailwind",
+    "tailwindcss",
+    "design-system",
+    "andhera",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ADesai-07/andhera-react.git"
+  },
+  "homepage": "https://andheraui.com/",
+  "bugs": {
+    "url": "https://github.com/ADesai-07/andhera-react/issues"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./icons": {
+      "import": {
+        "types": "./dist/icons.d.mts",
+        "default": "./dist/icons.mjs"
+      },
+      "require": {
+        "types": "./dist/icons.d.ts",
+        "default": "./dist/icons.js"
+      }
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsup && npm run build:css",
+    "build:css": "tailwindcss -c tailwind.config.js -i ./src/styles/index.css -o ./dist/styles.css --minify",
+    "dev": "tsup --watch",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "docs:dev": "vite --config docs/vite.config.ts",
+    "docs:build": "vite build --config docs/vite.config.ts",
+    "docs:preview": "vite preview --config docs/vite.config.ts"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.38",
+    "postcss-import": "^16.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.10.0",
+    "tailwindcss": "^3.4.13",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.2.0",
+    "@types/prismjs": "^1.26.5",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "prettier": "^3.7.4",
+    "prismjs": "^1.30.0",
+    "react-syntax-highlighter": "^16.1.0"
+  },
+  "dependencies": {}
+}

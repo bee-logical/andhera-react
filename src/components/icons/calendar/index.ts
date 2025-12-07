@@ -1,0 +1,20 @@
+export { 
+  CalendarCheck2, 
+  CalendarCheck, 
+  CalendarArrowUp, 
+  CalendarCog, 
+  CalendarClock,
+  CalendarDays,
+  CalendarFold,
+  CalendarHeart,
+  CalendarMinus,
+  CalendarMinus2,
+  CalendarOff,
+  CalendarPlus,
+  CalendarPlus2,
+  CalendarRange,
+  CalendarSearch,
+  CalendarSync,
+  CalendarX,
+  CalendarX2
+} from './Calendar';

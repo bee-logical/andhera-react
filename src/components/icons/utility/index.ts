@@ -1,0 +1,16 @@
+export { Copy } from './Copy';
+export { Edit } from './Edit';
+export { Trash } from './Trash';
+export { Share } from './Share';
+export { Calculator } from './Calculator';
+export { Briefcase } from './Briefcase';
+export { Database } from './Database';
+export { Move } from './Move';
+export { Zap } from './Zap';
+export { ZoomIn } from './ZoomIn';
+export { ZoomOut } from './ZoomOut';
+export { Plug } from './Plug';
+export { Power } from './Power';
+export { ShoppingCart } from './ShoppingCart';
+export { Component } from './Component';
+export { GridIcon } from './Grid';

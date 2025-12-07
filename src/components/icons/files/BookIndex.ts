@@ -1,0 +1,1 @@
+export { BookUp, BookUp2, BookType, BookText, BookUser } from './Book';
