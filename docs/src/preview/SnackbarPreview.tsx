@@ -8,6 +8,65 @@ import {
 import { Button } from "../../../src/components/button";
 import { PreviewCard as SharedPreviewCard } from "../components/PreviewCard";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const propDefinitions: PropDefinition[] = [
+  { name: "type", type: "'success' | 'warning' | 'info' | 'error' | 'default'", defaultValue: "'default'", description: "Color scheme and icon preset." },
+  { name: "variant", type: "'filled' | 'outline' | 'soft'", defaultValue: "'filled'", description: "Visual style." },
+  { name: "position", type: "'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right' | 'center'", defaultValue: "-", description: "Screen position." },
+  { name: "size", type: "'small' | 'default' | 'large'", defaultValue: "'default'", description: "Padding and font sizing." },
+  { name: "message", type: "string | ReactNode", defaultValue: "-", description: "Main snackbar content." },
+  { name: "title", type: "string", defaultValue: "-", description: "Optional heading." },
+  { name: "duration", type: "number", defaultValue: "4000", description: "Auto-close duration in ms (0 = persistent)." },
+  { name: "progressType", type: "'circular' | 'linear' | 'none'", defaultValue: "'circular'", description: "Progress indicator style during auto-close." },
+  { name: "pauseOnHover", type: "boolean", defaultValue: "true", description: "Pause auto-close countdown on hover." },
+  { name: "closable", type: "boolean", defaultValue: "true", description: "Show close button." },
+  { name: "onClose", type: "() => void", defaultValue: "-", description: "Called when closed." },
+  { name: "className", type: "string", defaultValue: "-", description: "Additional CSS classes." },
+  { name: "children", type: "ReactNode", defaultValue: "-", description: "Custom content to display instead of message prop." },
+  { name: "style", type: "React.CSSProperties", defaultValue: "-", description: "Inline style overrides." },
+  { name: "icon", type: "ReactNode | null", defaultValue: "-", description: "Custom icon (null hides icon)." },
+  { name: "showIcon", type: "boolean", defaultValue: "true", description: "Toggle icon visibility." },
+  { name: "action", type: "{ label: string; onClick: () => void; variant?: 'text' | 'outlined' | 'filled' }", defaultValue: "-", description: "Primary action button." },
+  { name: "actions", type: "SnackbarAction[]", defaultValue: "-", description: "Multiple action buttons." },
+  { name: "animation", type: "'slide' | 'fade' | 'zoom' | 'none'", defaultValue: "'slide'", description: "Entry/exit animation." },
+  { name: "portal", type: "boolean", defaultValue: "false", description: "Render into document.body." },
+  { name: "ariaLive", type: "'polite' | 'assertive' | 'off'", defaultValue: "'polite'", description: "ARIA politeness setting." },
+  { name: "backgroundColor", type: "string", defaultValue: "-", description: "Override background color." },
+  { name: "textColor", type: "string", defaultValue: "-", description: "Override text color." },
+  { name: "borderColor", type: "string", defaultValue: "-", description: "Override border color." },
+  { name: "iconColor", type: "string", defaultValue: "-", description: "Override icon color." },
+  { name: "borderRadius", type: "string | number", defaultValue: "-", description: "Corner radius." },
+  { name: "shadow", type: "'none' | 'sm' | 'md' | 'lg' | 'xl'", defaultValue: "'lg'", description: "Shadow elevation." },
+  { name: "minWidth", type: "string | number", defaultValue: "-", description: "Minimum width." },
+  { name: "maxWidth", type: "string | number", defaultValue: "-", description: "Maximum width." },
+  { name: "zIndex", type: "number", defaultValue: "9999", description: "Custom stacking context." },
+  { name: "open", type: "boolean", defaultValue: "true", description: "Control visibility." },
+  { name: "onAnimationEnd", type: "(state: 'entered' | 'exited') => void", defaultValue: "-", description: "Animation lifecycle callback." },
+  { name: "data-testid", type: "string", defaultValue: "-", description: "Test id." },
+];
+
+const providerPropDefinitions: PropDefinition[] = [
+  { name: "maxSnackbars", type: "number", defaultValue: "5", description: "Maximum snackbars rendered at once." },
+  { name: "defaultPosition", type: "SnackbarPosition", defaultValue: "'bottom-right'", description: "Default position for stacked snackbars." },
+  { name: "spacing", type: "number", defaultValue: "8", description: "Gap between stacked snackbars (px)." },
+];
+
+const hookPropDefinitions: PropDefinition[] = [
+  { name: "show", type: "(props: Omit<BeeSnackbarProps, 'open'>) => string", defaultValue: "-", description: "Render a snackbar and returns its id." },
+  { name: "close", type: "(id: string) => void", defaultValue: "-", description: "Close snackbar by id." },
+  { name: "closeAll", type: "() => void", defaultValue: "-", description: "Close all snackbars." },
+];
+
+const helpersPropDefinitions: PropDefinition[] = [
+  { name: "success | error | warning | info", type: "(message: string, options?: Partial<BeeSnackbarProps>) => string", defaultValue: "-", description: "Convenience helpers that call show with presets." },
+];
+
 const ProviderDemo = () => {
   const snackbar = useSnackbar();
   const helpers = useMemo(() => createSnackbarHelpers(snackbar.show), [snackbar.show]);
@@ -502,6 +561,215 @@ function Demo() {
           <ProviderDemo />
         </SnackbarProvider>
       </SharedPreviewCard>
+
+      {/* Props Reference */}
+      <PropsReference />
+    </div>
+  );
+}
+
+function PropsReference() {
+  return (
+    <div className="flex flex-col gap-8">
+      {/* Snackbar Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            Snackbar Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            Snackbar delivers transient feedback with rich customization: variants, actions, progress, stacking, portal rendering, and full accessibility controls.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {propDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* SnackbarProvider Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            SnackbarProvider Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            SnackbarProvider manages a queue of snackbars with stacking, positioning, and spacing controls.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {providerPropDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* useSnackbar Hook */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            useSnackbar Hook
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            Hook that provides methods to programmatically show and close snackbars.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "METHOD", width: "18%" },
+                  { label: "TYPE", width: "36%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {hookPropDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* createSnackbarHelpers */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            createSnackbarHelpers
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            Factory function that creates convenience methods for common snackbar types.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "METHOD", width: "18%" },
+                  { label: "TYPE", width: "36%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {helpersPropDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

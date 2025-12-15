@@ -4,6 +4,56 @@ import { PreviewCard } from "../components/PreviewCard";
 // Import icons from the library's icons folder
 import { Star, Heart, User, Ticket, Trash, CheckCircle } from "../../../src/components/icons";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const propDefinitions: PropDefinition[] = [
+  { name: "label", type: "string", defaultValue: "-", description: "Text content of the chip." },
+  { name: "size", type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", defaultValue: "'md'", description: "Size of the chip." },
+  { name: "variant", type: "'filled' | 'outlined' | 'soft' | 'ghost'", defaultValue: "'filled'", description: "Visual style variant." },
+  { name: "color", type: "'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'", defaultValue: "'default'", description: "Predefined color scheme." },
+  { name: "radius", type: "'none' | 'sm' | 'md' | 'lg' | 'full'", defaultValue: "'full'", description: "Border radius style." },
+  { name: "removable", type: "boolean", defaultValue: "false", description: "Whether to show a remove/close button." },
+  { name: "onRemove", type: "(event: MouseEvent) => void", defaultValue: "-", description: "Callback fired when the remove button is clicked." },
+  { name: "selectable", type: "boolean", defaultValue: "false", description: "Whether the chip can be selected/toggled." },
+  { name: "selected", type: "boolean", defaultValue: "-", description: "Controlled selected state." },
+  { name: "defaultSelected", type: "boolean", defaultValue: "false", description: "Default selected state for uncontrolled mode." },
+  { name: "onSelectionChange", type: "(selected: boolean) => void", defaultValue: "-", description: "Callback fired when selection state changes." },
+  { name: "clickable", type: "boolean", defaultValue: "false", description: "Whether the chip responds to clicks." },
+  { name: "onClick", type: "(event: MouseEvent) => void", defaultValue: "-", description: "Callback fired when the chip is clicked." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "Whether the chip is disabled." },
+  { name: "loading", type: "boolean", defaultValue: "false", description: "Whether to show a loading spinner." },
+  { name: "loadingText", type: "string", defaultValue: "-", description: "Text to display when loading." },
+  { name: "animated", type: "boolean", defaultValue: "true", description: "Whether to show hover and transition animations." },
+  { name: "avatar", type: "ReactNode", defaultValue: "-", description: "Avatar element to display at the start." },
+  { name: "icon", type: "ReactNode", defaultValue: "-", description: "Icon element to display at the start." },
+  { name: "endIcon", type: "ReactNode", defaultValue: "-", description: "Icon element to display at the end." },
+  { name: "removeIcon", type: "ReactNode", defaultValue: "-", description: "Custom remove icon to replace default." },
+  { name: "checkmarkIcon", type: "ReactNode", defaultValue: "-", description: "Custom checkmark icon when selected." },
+  { name: "showCheckmark", type: "boolean", defaultValue: "true", description: "Whether to show checkmark when selected." },
+  { name: "backgroundColor", type: "string", defaultValue: "-", description: "Custom background color (CSS value)." },
+  { name: "textColor", type: "string", defaultValue: "-", description: "Custom text color (CSS value)." },
+  { name: "borderColor", type: "string", defaultValue: "-", description: "Custom border color (CSS value)." },
+  { name: "hoverBackgroundColor", type: "string", defaultValue: "-", description: "Custom background color on hover." },
+  { name: "selectedBackgroundColor", type: "string", defaultValue: "-", description: "Custom background color when selected." },
+  { name: "selectedTextColor", type: "string", defaultValue: "-", description: "Custom text color when selected." },
+  { name: "className", type: "string", defaultValue: "-", description: "Additional CSS class names." },
+  { name: "style", type: "React.CSSProperties", defaultValue: "-", description: "Inline styles for the chip container." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessible label for the chip." },
+  { name: "data-testid", type: "string", defaultValue: "-", description: "Test ID for testing frameworks." },
+];
+
+const chipGroupPropDefinitions: PropDefinition[] = [
+  { name: "spacing", type: "'xs' | 'sm' | 'md' | 'lg'", defaultValue: "'sm'", description: "Spacing between chips." },
+  { name: "direction", type: "'row' | 'column'", defaultValue: "'row'", description: "Direction of chip arrangement." },
+  { name: "wrap", type: "boolean", defaultValue: "true", description: "Whether to wrap chips to the next line." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessible label for the chip group." },
+];
+
 // ============================================================================
 // HELPER COMPONENTS
 // ============================================================================
@@ -910,6 +960,120 @@ role: 'checkbox' | 'button' | 'status' (automatic)`}
           />
         </div>
       </PreviewCard>
+
+      {/* Props Reference */}
+      <PropsReference />
+    </div>
+  );
+}
+
+function PropsReference() {
+  return (
+    <div className="w-full flex flex-col gap-8">
+      {/* Chip Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            Chip Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            Chip is a versatile tag component with support for multiple sizes, variants, colors, icons, avatars, 
+            loading states, selection, and removal. Perfect for filters, tags, user mentions, and status indicators.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {propDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ChipGroup Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            ChipGroup Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            ChipGroup is a container component for organizing multiple chips with consistent spacing and layout.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {chipGroupPropDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

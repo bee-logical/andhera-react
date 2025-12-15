@@ -1,6 +1,88 @@
 import { useState } from "react";
 import { Checkbox, CheckboxGroup } from "../../../src/components/checkbox/checkboxs";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const checkboxPropDefinitions: PropDefinition[] = [
+  { name: "label", type: "string", defaultValue: "-", description: "Checkbox label text displayed next to the checkbox." },
+  { name: "description", type: "string", defaultValue: "-", description: "Description text displayed below the label." },
+  { name: "error", type: "string", defaultValue: "-", description: "Error message to display below the checkbox." },
+  { name: "helperText", type: "string", defaultValue: "-", description: "Helper text displayed below the checkbox." },
+  { name: "size", type: "'small' | 'medium' | 'large'", defaultValue: "'medium'", description: "Size of the checkbox (18px, 22px, 26px)." },
+  { name: "variant", type: "'primary' | 'error' | 'default'", defaultValue: "'primary'", description: "Visual style variant of the checkbox." },
+  { name: "color", type: "string", defaultValue: "-", description: "Custom color for checkbox when checked (overrides variant)." },
+  { name: "focusRingColor", type: "string", defaultValue: "-", description: "Custom focus ring color." },
+  { name: "focusRingWidth", type: "string", defaultValue: "'1px'", description: "Width of the focus ring." },
+  { name: "checked", type: "boolean", defaultValue: "-", description: "Controlled checked state." },
+  { name: "defaultChecked", type: "boolean", defaultValue: "-", description: "Default checked state (uncontrolled)." },
+  { name: "indeterminate", type: "boolean", defaultValue: "false", description: "Indeterminate state (neither checked nor unchecked)." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "Disables the checkbox." },
+  { name: "required", type: "boolean", defaultValue: "false", description: "Shows required indicator (*)." },
+  { name: "readOnly", type: "boolean", defaultValue: "false", description: "Makes checkbox read-only." },
+  { name: "onChange", type: "(checked: boolean, event: ChangeEvent) => void", defaultValue: "-", description: "Change event handler." },
+  { name: "onFocus", type: "(event: FocusEvent) => void", defaultValue: "-", description: "Focus event handler." },
+  { name: "onBlur", type: "(event: FocusEvent) => void", defaultValue: "-", description: "Blur event handler." },
+  { name: "containerClassName", type: "string", defaultValue: "-", description: "Custom className for the container." },
+  { name: "labelClassName", type: "string", defaultValue: "-", description: "Custom className for the label." },
+  { name: "checkboxClassName", type: "string", defaultValue: "-", description: "Custom className for the checkbox input." },
+  { name: "labelPosition", type: "'left' | 'right' | 'top' | 'bottom'", defaultValue: "'right'", description: "Label position relative to checkbox." },
+  { name: "showFocusRing", type: "boolean", defaultValue: "true", description: "Show focus ring on keyboard navigation." },
+  { name: "checkedIcon", type: "ReactNode", defaultValue: "-", description: "Custom icon for checked state." },
+  { name: "indeterminateIcon", type: "ReactNode", defaultValue: "-", description: "Custom icon for indeterminate state." },
+  { name: "name", type: "string", defaultValue: "-", description: "Name attribute for form submission." },
+  { name: "value", type: "string", defaultValue: "-", description: "Value attribute for form submission." },
+  { name: "animated", type: "boolean", defaultValue: "true", description: "Enable/disable animations." },
+  { name: "borderColor", type: "string", defaultValue: "-", description: "Custom border color when unchecked." },
+  { name: "hoverBorderColor", type: "string", defaultValue: "-", description: "Custom border color on hover (unchecked)." },
+  { name: "iconColor", type: "string", defaultValue: "-", description: "Custom color for the check/indeterminate icon." },
+  { name: "borderRadius", type: "'none' | 'sm' | 'md' | 'lg' | 'full' | string", defaultValue: "'5.5px'", description: "Border radius for the checkbox." },
+  { name: "tooltip", type: "string", defaultValue: "-", description: "Tooltip text shown on hover." },
+  { name: "autoFocus", type: "boolean", defaultValue: "-", description: "Auto-focus checkbox on mount." },
+  { name: "labelStyle", type: "CSSProperties", defaultValue: "-", description: "Inline styles for the label." },
+  { name: "checkboxStyle", type: "CSSProperties", defaultValue: "-", description: "Inline styles for the checkbox." },
+  { name: "aria-invalid", type: "boolean", defaultValue: "-", description: "Form validation state." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessibility label." },
+  { name: "aria-describedby", type: "string", defaultValue: "-", description: "Accessibility described by." },
+  { name: "data-testid", type: "string", defaultValue: "-", description: "Test ID for testing." },
+];
+
+const checkboxGroupPropDefinitions: PropDefinition[] = [
+  { name: "label", type: "string", defaultValue: "-", description: "Group label displayed above checkboxes." },
+  { name: "description", type: "string", defaultValue: "-", description: "Group description text." },
+  { name: "options", type: "Array<{label, value, description?, disabled?, tooltip?}>", defaultValue: "-", description: "Array of checkbox options to render." },
+  { name: "value", type: "string[]", defaultValue: "-", description: "Controlled selected values." },
+  { name: "defaultValue", type: "string[]", defaultValue: "-", description: "Default selected values (uncontrolled)." },
+  { name: "onChange", type: "(values: string[]) => void", defaultValue: "-", description: "Change handler for selection." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "Disable all checkboxes." },
+  { name: "direction", type: "'vertical' | 'horizontal'", defaultValue: "'vertical'", description: "Layout direction." },
+  { name: "size", type: "'small' | 'medium' | 'large'", defaultValue: "'medium'", description: "Size variant for all checkboxes." },
+  { name: "variant", type: "'primary' | 'error' | 'default'", defaultValue: "'primary'", description: "Visual variant for all checkboxes." },
+  { name: "color", type: "string", defaultValue: "-", description: "Custom color for all checkboxes." },
+  { name: "focusRingColor", type: "string", defaultValue: "-", description: "Custom focus ring color." },
+  { name: "focusRingWidth", type: "string", defaultValue: "-", description: "Focus ring width." },
+  { name: "required", type: "boolean", defaultValue: "false", description: "Mark group as required." },
+  { name: "error", type: "string", defaultValue: "-", description: "Error message displayed below group." },
+  { name: "className", type: "string", defaultValue: "-", description: "Custom className for group." },
+  { name: "name", type: "string", defaultValue: "-", description: "Name for form submission." },
+  { name: "helperText", type: "string", defaultValue: "-", description: "Helper text below group." },
+  { name: "animated", type: "boolean", defaultValue: "true", description: "Enable animations." },
+  { name: "iconColor", type: "string", defaultValue: "-", description: "Icon color for all checkboxes." },
+  { name: "borderColor", type: "string", defaultValue: "-", description: "Border color for all checkboxes." },
+  { name: "hoverBorderColor", type: "string", defaultValue: "-", description: "Hover border color." },
+  { name: "borderRadius", type: "'none' | 'sm' | 'md' | 'lg' | 'full'", defaultValue: "'md'", description: "Border radius for all checkboxes." },
+  { name: "labelPosition", type: "'left' | 'right' | 'top' | 'bottom'", defaultValue: "'right'", description: "Label position for all checkboxes." },
+  { name: "gap", type: "string", defaultValue: "-", description: "Custom gap between checkboxes." },
+  { name: "showSelectAll", type: "boolean", defaultValue: "false", description: "Show 'Select All' checkbox." },
+  { name: "selectAllLabel", type: "string", defaultValue: "'Select All'", description: "Label for 'Select All' checkbox." },
+  { name: "minSelections", type: "number", defaultValue: "-", description: "Minimum selections required." },
+  { name: "maxSelections", type: "number", defaultValue: "-", description: "Maximum selections allowed." },
+];
+
 /**
  * IndeterminateExample - Real-world Select All pattern
  */
@@ -1340,8 +1422,81 @@ export function Example() {
           />
         </div>
       </PreviewCard>
+
+      {/* Props Reference - Checkbox */}
+      <PropsReference 
+        title="Checkbox Props"
+        description="Checkbox is an enterprise-level form component with comprehensive customization including sizes, variants, indeterminate state, custom icons, and full accessibility support."
+        propDefinitions={checkboxPropDefinitions}
+      />
+
+      {/* Props Reference - CheckboxGroup */}
+      <PropsReference 
+        title="CheckboxGroup Props"
+        description="CheckboxGroup manages multiple checkboxes with support for select all, min/max selections, horizontal/vertical layouts, and shared styling options."
+        propDefinitions={checkboxGroupPropDefinitions}
+      />
     </div>
     </>
+  );
+}
+
+/**
+ * PropsReference Component
+ * Displays a comprehensive table of all component props
+ */
+function PropsReference({ title, description, propDefinitions }: { title: string; description: string; propDefinitions: PropDefinition[] }) {
+  return (
+    <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+          {title}
+        </h3>
+        <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+          {description}
+        </p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+          <thead>
+            <tr>
+              {[
+                { label: "Prop", width: "18%" },
+                { label: "Type", width: "24%" },
+                { label: "Default", width: "12%" },
+                { label: "Description", width: "46%" },
+              ].map((header) => (
+                <th
+                  key={header.label}
+                  className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                  style={{ width: header.width }}
+                >
+                  {header.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {propDefinitions.map((prop) => (
+              <tr key={prop.name}>
+                <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                  {prop.name}
+                </td>
+                <td className="p-3 border-b border-[#2B3546]">
+                  <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                  {prop.defaultValue}
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                  {prop.description}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 

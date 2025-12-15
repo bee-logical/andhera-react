@@ -24,7 +24,7 @@ export const Introduction = () => {
       <section className="px-4 sm:px-6 py-8 sm:py-12 max-w-5xl">
         <div className="mb-4">
           <span className="inline-block px-3 py-1 text-xs font-medium bg-[#FFCB00] bg-opacity-20 text-[#FFCB00] rounded-full border border-[#FFCB00] border-opacity-30">
-            v1.0.6
+            v1.0.11
           </span>
         </div>
         

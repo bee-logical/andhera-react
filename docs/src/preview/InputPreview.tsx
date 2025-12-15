@@ -1,6 +1,7 @@
 import { useState, type ReactNode, type CSSProperties, type ChangeEvent } from "react";
 import Input from "../../../src/components/input/BeeInput";
 import { Search, Lock, CheckCircle, AlertCircle } from "../../../src/components/icons";
+import { PropertiesTable, type PropertyItem } from "../components/PropertiesTable";
 
 const containerStyle: CSSProperties = {
   display: "flex",
@@ -983,6 +984,13 @@ const propDefinitions: PropDefinition[] = [
  * Shows Input usage grouped by props similar to the Button preview
  */
 export function InputPreview() {
+  const inputProperties: PropertyItem[] = propDefinitions.map(prop => ({
+    name: prop.name,
+    type: prop.type,
+    defaultValue: prop.defaultValue,
+    description: prop.description,
+  }));
+
   return (
     <div style={containerStyle}>
       {exampleSections.map((section, index) => (
@@ -998,106 +1006,7 @@ export function InputPreview() {
           </div>
         </PreviewCard>
       ))}
-      <PropsReference />
-    </div>
-  );
-}
-
-function PropsReference() {
-  return (
-    <div
-      style={{
-        width: "100%",
-        background: "rgba(255, 255, 255, 0.04)",
-        border: "1px solid #364153",
-        borderRadius: "16px",
-        padding: "24px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "16px",
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-        <h3
-          style={{
-            fontFamily: "Manrope, sans-serif",
-            fontSize: "20px",
-            fontWeight: 600,
-            margin: 0,
-            color: "#FFFFFF",
-          }}
-        >
-          Input Props
-        </h3>
-        <p
-          style={{
-            margin: 0,
-            color: "#AEB6C4",
-            fontSize: "14px",
-            lineHeight: 1.5,
-          }}
-        >
-          Input forwards every native input attribute (placeholder, value, onChange, etc.) and layers the props
-          below to handle labels, adornments, and state.
-        </p>
-      </div>
-      <div style={{ overflowX: "auto" }}>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            minWidth: "640px",
-            fontFamily: "Manrope, sans-serif",
-            fontSize: "14px",
-            color: "#E3E6F2",
-          }}
-        >
-          <thead>
-            <tr>
-              {[
-                { label: "Prop", width: "18%" },
-                { label: "Type", width: "24%" },
-                { label: "Default", width: "12%" },
-                { label: "Description", width: "46%" },
-              ].map((header) => (
-                <th
-                  key={header.label}
-                  style={{
-                    textAlign: "left",
-                    padding: "8px 12px",
-                    fontSize: "12px",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    color: "#99A1AF",
-                    borderBottom: "1px solid #364153",
-                    width: header.width,
-                  }}
-                >
-                  {header.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {propDefinitions.map((prop) => (
-              <tr key={prop.name}>
-                <td style={{ padding: "10px 12px", borderBottom: "1px solid #2B3546", fontWeight: 500 }}>
-                  {prop.name}
-                </td>
-                <td style={{ padding: "10px 12px", borderBottom: "1px solid #2B3546" }}>
-                  <code>{prop.type}</code>
-                </td>
-                <td style={{ padding: "10px 12px", borderBottom: "1px solid #2B3546", color: "#C7CBD7" }}>
-                  {prop.defaultValue}
-                </td>
-                <td style={{ padding: "10px 12px", borderBottom: "1px solid #2B3546", color: "#C7CBD7" }}>
-                  {prop.description}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <PropertiesTable title="Input Props" properties={inputProperties} />
     </div>
   );
 }

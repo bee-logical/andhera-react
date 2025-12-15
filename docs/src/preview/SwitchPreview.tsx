@@ -2,6 +2,65 @@ import { ToggleSwitch, ParentToggleSwitch } from "@/components";
 import { PreviewCard } from "../components/PreviewCard";
 import { useState } from "react";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const propDefinitions: PropDefinition[] = [
+  { name: "checked", type: "boolean", defaultValue: "false", description: "Whether the switch is currently on/checked." },
+  { name: "onChange", type: "(checked: boolean) => void", defaultValue: "-", description: "Callback fired when the switch state changes." },
+  { name: "id", type: "string", defaultValue: "-", description: "Unique identifier for the switch input element." },
+  { name: "name", type: "string", defaultValue: "-", description: "Name attribute for form submission." },
+  { name: "label", type: "ReactNode", defaultValue: "-", description: "Label text or element displayed next to the switch." },
+  { name: "helperText", type: "string", defaultValue: "-", description: "Helper text displayed below the switch." },
+  { name: "labelPlacement", type: "'start' | 'end' | 'top' | 'bottom'", defaultValue: "'end'", description: "Position of the label relative to the switch." },
+  { name: "size", type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", defaultValue: "'md'", description: "Size of the switch (affects track and knob dimensions)." },
+  { name: "variant", type: "'default' | 'outlined' | 'filled' | 'minimal'", defaultValue: "'default'", description: "Visual style variant of the switch." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "Disables the switch and prevents interaction." },
+  { name: "readOnly", type: "boolean", defaultValue: "false", description: "Makes the switch read-only (visible but not changeable)." },
+  { name: "required", type: "boolean", defaultValue: "false", description: "Marks the switch as required for form validation." },
+  { name: "error", type: "string | boolean", defaultValue: "-", description: "Error state. If string, displays as error message." },
+  { name: "loading", type: "boolean", defaultValue: "false", description: "Shows loading spinner in the switch knob." },
+  { name: "icon", type: "ReactNode | string", defaultValue: "-", description: "Icon displayed in the knob for both states." },
+  { name: "checkedIcon", type: "ReactNode | string", defaultValue: "-", description: "Icon displayed in the knob when checked." },
+  { name: "uncheckedIcon", type: "ReactNode | string", defaultValue: "-", description: "Icon displayed in the knob when unchecked." },
+  { name: "checkedColor", type: "string", defaultValue: "-", description: "Custom background color when checked (Tailwind class or CSS value)." },
+  { name: "uncheckedColor", type: "string", defaultValue: "-", description: "Custom background color when unchecked." },
+  { name: "borderFocusColor", type: "string", defaultValue: "-", description: "Custom border/ring color on focus." },
+  { name: "knobColor", type: "string", defaultValue: "-", description: "Custom knob color when unchecked." },
+  { name: "activeKnobColor", type: "string", defaultValue: "-", description: "Custom knob color when checked." },
+  { name: "className", type: "string", defaultValue: "-", description: "Additional CSS classes for the wrapper element." },
+  { name: "switchClassName", type: "string", defaultValue: "-", description: "Additional CSS classes for the switch track." },
+  { name: "labelClassName", type: "string", defaultValue: "-", description: "Additional CSS classes for the label." },
+  { name: "knobClassName", type: "string", defaultValue: "-", description: "Additional CSS classes for the knob." },
+  { name: "tooltip", type: "string", defaultValue: "-", description: "Tooltip text shown on hover." },
+  { name: "onBlur", type: "(e: FocusEvent) => void", defaultValue: "-", description: "Callback fired when switch loses focus." },
+  { name: "onFocus", type: "(e: FocusEvent) => void", defaultValue: "-", description: "Callback fired when switch gains focus." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessibility label for screen readers." },
+  { name: "aria-describedby", type: "string", defaultValue: "-", description: "ID of element describing the switch." },
+  { name: "aria-labelledby", type: "string", defaultValue: "-", description: "ID of element labelling the switch." },
+  { name: "data-testid", type: "string", defaultValue: "-", description: "Test ID for testing frameworks." },
+  { name: "tabIndex", type: "number", defaultValue: "0", description: "Tab index for keyboard navigation." },
+  { name: "ref", type: "Ref<HTMLInputElement>", defaultValue: "-", description: "Ref forwarded to the underlying input element." },
+];
+
+const parentPropDefinitions: PropDefinition[] = [
+  { name: "label", type: "string", defaultValue: "-", description: "Label for the parent switch that controls all children." },
+  { name: "children", type: "ReactNode", defaultValue: "-", description: "Child ToggleSwitch components to be controlled." },
+  { name: "variant", type: "'default' | 'outlined' | 'filled' | 'minimal'", defaultValue: "'default'", description: "Visual style variant applied to parent and children." },
+  { name: "size", type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", defaultValue: "'md'", description: "Size applied to parent and child switches." },
+  { name: "indeterminate", type: "boolean", defaultValue: "-", description: "Shows indeterminate state when some but not all children are checked." },
+];
+
+const typeDefinitions = [
+  { name: "ToggleSwitchSize", definition: "'xs' | 'sm' | 'md' | 'lg' | 'xl'" },
+  { name: "ToggleSwitchVariant", definition: "'default' | 'outlined' | 'filled' | 'minimal'" },
+  { name: "LabelPlacement", definition: "'start' | 'end' | 'top' | 'bottom'" },
+];
+
 export function SwitchPreview() {
   const [checked, setChecked] = useState(true);
   const [checked2, setChecked2] = useState(false);
@@ -776,6 +835,163 @@ export function Example() {
           <ToggleSwitch size="lg" checked={true} onChange={() => {}} label="LG + Disabled" disabled />
         </div>
       </PreviewCard>
+
+      {/* Props Reference */}
+      <PropsReference />
+    </div>
+  );
+}
+
+function PropsReference() {
+  return (
+    <div className="flex flex-col gap-8">
+      {/* ToggleSwitch Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            ToggleSwitch Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            ToggleSwitch provides a customizable on/off toggle with support for icons, loading states, and various visual styles.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {propDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ParentToggleSwitch Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            ParentToggleSwitch Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            ParentToggleSwitch controls multiple child switches with support for indeterminate state.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {parentPropDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Types */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            Types
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            TypeScript types exported for use with ToggleSwitch components.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "TYPE NAME", width: "30%" },
+                  { label: "DEFINITION", width: "70%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {typeDefinitions.map((type) => (
+                <tr key={type.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {type.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{type.definition}</code>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }    

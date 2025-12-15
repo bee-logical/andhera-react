@@ -21,6 +21,66 @@ import {
   Bookmark
 } from "../../../src/components/icons";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const propDefinitions: PropDefinition[] = [
+  { name: "value", type: "string | boolean", defaultValue: "-", description: "Value associated with this toggle button. Used for selection tracking in groups." },
+  { name: "isActive", type: "boolean", defaultValue: "false", description: "Whether the button is currently active/selected. Automatically managed when used in ToggleButtonGroup." },
+  { name: "onClick", type: "() => void", defaultValue: "-", description: "Click handler for the button. Automatically wired when used in ToggleButtonGroup." },
+  { name: "children", type: "ReactNode", defaultValue: "-", description: "Button content (text, icons, or any valid React node)." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "Disables the button and prevents interaction." },
+  { name: "variant", type: "'primary' | 'secondary' | 'light' | 'outline' | 'ghost'", defaultValue: "'primary'", description: "Visual style variant. Primary for prominent actions, secondary with container, light for bright UIs, outline for minimal, ghost for subtle." },
+  { name: "size", type: "'xs' | 'small' | 'medium' | 'large' | 'xl'", defaultValue: "'medium'", description: "Size of the button (24px, 32px, 40px, 48px, 56px height respectively)." },
+  { name: "radius", type: "'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'", defaultValue: "Auto", description: "Border radius style. Use 'full' for pill-shaped buttons." },
+  { name: "alignment", type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: "Layout direction when used in a group." },
+  { name: "startIcon", type: "ReactNode", defaultValue: "-", description: "Icon element to display before the button text." },
+  { name: "endIcon", type: "ReactNode", defaultValue: "-", description: "Icon element to display after the button text." },
+  { name: "iconOnly", type: "boolean", defaultValue: "false", description: "If true, only renders the icon (requires startIcon or endIcon)." },
+  { name: "fullWidth", type: "boolean", defaultValue: "false", description: "Makes the button take full width of its container." },
+  { name: "tooltip", type: "string", defaultValue: "-", description: "Tooltip text shown on hover (native title attribute)." },
+  { name: "backgroundColor", type: "string", defaultValue: "-", description: "Custom background color for inactive state." },
+  { name: "textColor", type: "string", defaultValue: "-", description: "Custom text color for inactive state." },
+  { name: "borderColor", type: "string", defaultValue: "-", description: "Custom border color for inactive state." },
+  { name: "activeBackgroundColor", type: "string", defaultValue: "-", description: "Custom background color when active." },
+  { name: "activeTextColor", type: "string", defaultValue: "-", description: "Custom text color when active." },
+  { name: "activeBorderColor", type: "string", defaultValue: "-", description: "Custom border color when active." },
+  { name: "customActiveClassName", type: "string", defaultValue: "-", description: "Custom CSS classes applied when button is active." },
+  { name: "customInactiveClassName", type: "string", defaultValue: "-", description: "Custom CSS classes applied when button is inactive." },
+  { name: "disableRipple", type: "boolean", defaultValue: "false", description: "Disables the subtle press animation effect." },
+  { name: "className", type: "string", defaultValue: "-", description: "Additional CSS classes for the button element." },
+  { name: "inputProps", type: "ButtonHTMLAttributes<HTMLButtonElement>", defaultValue: "-", description: "Additional HTML attributes to spread on the button element." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessibility label for screen readers." },
+  { name: "aria-describedby", type: "string", defaultValue: "-", description: "ID of element describing the button." },
+  { name: "aria-pressed", type: "boolean", defaultValue: "-", description: "Indicates if the button is pressed (auto-set based on isActive)." },
+];
+
+const groupPropDefinitions: PropDefinition[] = [
+  { name: "value", type: "string | string[]", defaultValue: "-", description: "Currently selected value(s). String for single mode, string[] for multiple mode." },
+  { name: "onChange", type: "(value: string | string[]) => void", defaultValue: "-", description: "Callback fired when selection changes." },
+  { name: "selectionMode", type: "'single' | 'multiple'", defaultValue: "'single'", description: "Selection mode - single (radio-like) or multiple (checkbox-like)." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "Disables all buttons in the group." },
+  { name: "variant", type: "'primary' | 'secondary' | 'light' | 'outline' | 'ghost'", defaultValue: "'primary'", description: "Visual style variant applied to all buttons." },
+  { name: "size", type: "'xs' | 'small' | 'medium' | 'large' | 'xl'", defaultValue: "'medium'", description: "Size applied to all buttons." },
+  { name: "alignment", type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: "Layout direction of the group." },
+  { name: "spacing", type: "'none' | 'xs' | 'sm' | 'md' | 'lg'", defaultValue: "'none'", description: "Gap between buttons. 'none' creates connected buttons." },
+  { name: "radius", type: "'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'", defaultValue: "-", description: "Border radius applied to buttons when using spacing." },
+  { name: "elevated", type: "boolean", defaultValue: "false", description: "Adds shadow elevation (secondary variant only)." },
+  { name: "fullWidth", type: "boolean", defaultValue: "false", description: "Makes the group span full width of container." },
+  { name: "required", type: "boolean", defaultValue: "false", description: "If true, at least one option must always be selected." },
+  { name: "className", type: "string", defaultValue: "-", description: "Additional CSS classes for the container." },
+  { name: "containerBackgroundColor", type: "string", defaultValue: "-", description: "Custom background color for the group container." },
+  { name: "containerBorderColor", type: "string", defaultValue: "-", description: "Custom border color for the group container." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessibility label for the group." },
+  { name: "aria-labelledby", type: "string", defaultValue: "-", description: "ID of element labelling the group." },
+  { name: "id", type: "string", defaultValue: "-", description: "ID attribute for the group container." },
+  { name: "data-testid", type: "string", defaultValue: "-", description: "Test ID for testing frameworks." },
+];
+
 /**
  * ToggleButtonPreview Component
  * Comprehensive documentation for ToggleButton and ToggleButtonGroup
@@ -1018,6 +1078,119 @@ function Example() {
           </span>
         </div>
       </SharedPreviewCard>
+
+      {/* Props Reference */}
+      <PropsReference />
+    </div>
+  );
+}
+
+function PropsReference() {
+  return (
+    <div className="flex flex-col gap-8">
+      {/* ToggleButton Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            ToggleButton Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            ToggleButton provides a single toggle control with full customization for icons, colors, and states.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {propDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ToggleButtonGroup Props */}
+      <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+            ToggleButtonGroup Props
+          </h3>
+          <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+            ToggleButtonGroup manages a collection of toggle buttons with single or multiple selection modes.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+            <thead>
+              <tr>
+                {[
+                  { label: "PROP", width: "18%" },
+                  { label: "TYPE", width: "24%" },
+                  { label: "DEFAULT", width: "12%" },
+                  { label: "DESCRIPTION", width: "46%" },
+                ].map((header) => (
+                  <th
+                    key={header.label}
+                    className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                    style={{ width: header.width }}
+                  >
+                    {header.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {groupPropDefinitions.map((prop) => (
+                <tr key={prop.name}>
+                  <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                    {prop.name}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546]">
+                    <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                    {prop.defaultValue}
+                  </td>
+                  <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                    {prop.description}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

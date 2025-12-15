@@ -1,118 +1,217 @@
-import React from "react";
+import React, { forwardRef } from "react";
+import "./skeleton.css";
 
 // Simple clsx-style helper
 const cx = (...classes: Array<string | false | null | undefined>) =>
   classes.filter(Boolean).join(" ");
 
+/**
+ * Available skeleton shape variants
+ */
 export type SkeletonVariant = "text" | "circle" | "rect";
 
-export interface SkeletonProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: SkeletonVariant; // shape
-  width?: string | number; // e.g. "100%" or 48
-  height?: string | number; // e.g. 16 or "2rem"
-  radius?: string | number; // borderRadius
-  animated?: boolean; // shimmer/pulse on/off
-  shimmer?: boolean; // shimmer or pulse animation
-}
+/**
+ * Animation type for skeleton
+ */
+export type SkeletonAnimation = "shimmer" | "pulse" | "wave" | "none";
 
+/**
+ * Props for the Skeleton component
+ */
+export type SkeletonProps = {
+  /** Shape variant of the skeleton: "text" (default), "rect", or "circle" */
+  variant?: SkeletonVariant;
+  /** Width - accepts pixels (number) or CSS units (string) e.g. "100%" or 48 */
+  width?: string | number;
+  /** Height - accepts pixels (number) or CSS units (string) e.g. 16 or "2rem" */
+  height?: string | number;
+  /** Border radius override - accepts pixels (number) or CSS units (string) */
+  radius?: string | number;
+  /** Enable/disable animation. Default: true */
+  animated?: boolean;
+  /** Animation type: "shimmer" (default), "pulse", "wave", or "none" */
+  animation?: SkeletonAnimation;
+  /** @deprecated Use animation prop instead. Use shimmer (true) or pulse (false) animation */
+  shimmer?: boolean;
+  /** Background color of the skeleton. Default: "#3a3a3a" for dark theme */
+  baseColor?: string;
+  /** Highlight/shimmer color for animation. Default: "rgba(255, 255, 255, 0.1)" */
+  highlightColor?: string;
+  /** Animation duration in seconds. Default: 1.5 */
+  duration?: number;
+  /** Animation direction for shimmer/wave: "ltr" (left to right) or "rtl" (right to left) */
+  direction?: "ltr" | "rtl";
+  /** Whether the skeleton should take full width of parent. Default: false */
+  fullWidth?: boolean;
+  /** Custom aria-label for accessibility */
+  ariaLabel?: string;
+  /** Number of times to repeat the skeleton in a row */
+  count?: number;
+  /** Gap between repeated skeletons when count > 1 */
+  gap?: string | number;
+  /** Whether to render as inline element */
+  inline?: boolean;
+} & Omit<React.HTMLAttributes<HTMLDivElement>, "children">;
+
+/**
+ * Normalize dimension values to CSS string
+ */
 const normalize = (val?: string | number) =>
   val === undefined ? undefined : typeof val === "number" ? `${val}px` : val;
 
-export default function Skeleton({
-  variant = "text",
-  width,
-  height,
-  radius,
-  animated = true,
-  shimmer = true,
-  className,
-  style,
-  ...rest
-}: SkeletonProps) {
-  const isCircle = variant === "circle";
-
-  const baseClasses = cx(
-    "relative overflow-hidden bg-gray-200 dark:bg-gray-700 rounded-sm select-none",
-    className
-  );
-
-  const inlineStyle: React.CSSProperties = {
-    width: normalize(width),
-    height: normalize(height),
-    borderRadius: isCircle ? "50%" : normalize(radius),
-    ...style,
-  };
-
-  const animationClass = animated
-    ? shimmer
-      ? "skeleton-shimmer"
-      : "animate-pulse"
-    : "skeleton-static";
-
-  // Default sizes
-  if (!width && !height) {
-    if (variant === "text") inlineStyle.height = "1rem";
-    if (variant === "rect") {
-      inlineStyle.height = "8rem";
-      inlineStyle.width = "100%";
-    }
-    if (variant === "circle") {
-      inlineStyle.width = "48px";
-      inlineStyle.height = "48px";
-    }
+/**
+ * Get animation class based on animation type and animated state
+ */
+const getAnimationClass = (
+  animated: boolean,
+  animation: SkeletonAnimation,
+  shimmer?: boolean
+): string => {
+  if (!animated || animation === "none") return "skeleton-static";
+  
+  // Handle legacy shimmer prop
+  if (shimmer !== undefined) {
+    return shimmer ? "skeleton-shimmer" : "skeleton-pulse";
   }
+  
+  switch (animation) {
+    case "shimmer":
+      return "skeleton-shimmer";
+    case "pulse":
+      return "skeleton-pulse";
+    case "wave":
+      return "skeleton-wave";
+    default:
+      return "skeleton-shimmer";
+  }
+};
 
-  return (
-    <div
-      role="status"
-      aria-busy={animated}
-      className={cx(baseClasses, animationClass)}
-      style={inlineStyle}
-      {...rest}
-    >
-      <span className="sr-only">Loading...</span>
+/**
+ * Skeleton component for loading placeholders
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <Skeleton variant="text" width="100%" />
+ * 
+ * // Circle avatar placeholder
+ * <Skeleton variant="circle" width={48} height={48} />
+ * 
+ * // Custom colors and animation
+ * <Skeleton 
+ *   variant="rect" 
+ *   width="100%" 
+ *   height={120}
+ *   baseColor="#2a2a2a"
+ *   highlightColor="rgba(255, 255, 255, 0.15)"
+ *   animation="wave"
+ *   duration={2}
+ * />
+ * ```
+ */
+export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
+  (
+    {
+      variant = "text",
+      width,
+      height,
+      radius,
+      animated = true,
+      animation = "shimmer",
+      shimmer,
+      baseColor,
+      highlightColor,
+      duration,
+      direction = "ltr",
+      fullWidth = false,
+      ariaLabel = "Loading...",
+      count = 1,
+      gap = 8,
+      inline = false,
+      className,
+      style,
+      ...rest
+    },
+    ref
+  ) => {
+    const isCircle = variant === "circle";
 
-      <style>{`
-        .skeleton-shimmer {
-          position: relative;
-        }
-        .skeleton-shimmer::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -150%;
-          width: 250%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.4) 50%,
-            rgba(255, 255, 255, 0) 100%
-          );
-          animation: shimmer 1.2s ease-in-out infinite;
-          mix-blend-mode: overlay;
-        }
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        .skeleton-static::after {
-          display: none !important;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .skeleton-shimmer::after {
-            animation: none;
-          }
-          .animate-pulse {
-            animation: none !important;
-          }
-        }
-      `}</style>
-    </div>
-  );
-}
+    const baseClasses = cx(
+      "relative overflow-hidden select-none",
+      inline ? "inline-block" : "block",
+      className
+    );
+
+    const inlineStyle: React.CSSProperties = {
+      width: fullWidth ? "100%" : normalize(width),
+      height: normalize(height),
+      borderRadius: isCircle ? "50%" : normalize(radius) || "0.125rem",
+      backgroundColor: baseColor || "var(--skeleton-base-color, #3a3a3a)",
+      ["--skeleton-highlight-color" as string]: highlightColor || "rgba(255, 255, 255, 0.1)",
+      ["--skeleton-duration" as string]: duration ? `${duration}s` : undefined,
+      ["--skeleton-direction" as string]: direction === "rtl" ? "reverse" : "normal",
+      ...style,
+    };
+
+    const animationClass = getAnimationClass(animated, animation, shimmer);
+
+    // Default sizes
+    if (!width && !height && !fullWidth) {
+      if (variant === "text") inlineStyle.height = "1rem";
+      if (variant === "rect") {
+        inlineStyle.height = "8rem";
+        inlineStyle.width = "100%";
+      }
+      if (variant === "circle") {
+        inlineStyle.width = "48px";
+        inlineStyle.height = "48px";
+      }
+    }
+
+    const skeletonElement = (
+      <div
+        ref={ref}
+        role="status"
+        aria-busy={animated}
+        aria-label={ariaLabel}
+        className={cx(baseClasses, animationClass)}
+        style={inlineStyle}
+        {...rest}
+      >
+        <span className="sr-only">{ariaLabel}</span>
+      </div>
+    );
+
+    // Render multiple skeletons if count > 1
+    if (count > 1) {
+      return (
+        <div
+          style={{
+            display: inline ? "inline-flex" : "flex",
+            flexDirection: inline ? "row" : "column",
+            gap: normalize(gap),
+          }}
+        >
+          {Array.from({ length: count }).map((_, index) => (
+            <div
+              key={index}
+              role="status"
+              aria-busy={animated}
+              aria-label={ariaLabel}
+              className={cx(baseClasses, animationClass)}
+              style={inlineStyle}
+            >
+              <span className="sr-only">{ariaLabel}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return skeletonElement;
+  }
+);
+
+Skeleton.displayName = "Skeleton";
+
+export default Skeleton;

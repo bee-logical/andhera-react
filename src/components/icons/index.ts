@@ -13,6 +13,9 @@ export * from './calendar';
 // Chart icons
 export * from './charts';
 
+// Clipboard icons
+export * from './clipboard';
+
 // Communication icons
 export * from './communication';
 
@@ -50,7 +53,7 @@ export { BarChart, LineChart, PieChart } from './charts';
 export { MessageCircle, Phone, Mail } from './communication';
 export { Archive, BookText, Folder, Download, Upload } from './files';
 export { AudioWaveform, Award, Activity, User, Users, Settings, Rocket, Heart, Star, Watch, Monitor, Smartphone, Clock, Calendar, Target, HalfCircle, DesktopComputer, Moon } from './general';
-export { BellDot, BellElectric, Menu, X, Plus, Minus } from './interface';
+export { BellDot, BellElectric, Menu, X, Plus, Minus, ChevronDown, ChevronLeft, ChevronRight } from './interface';
 export { Play, Pause, Stop, Volume, Webcam } from './media';
 export { Search, Locate, Home, Globe } from './navigation';
 export { Lock, LockOpen, LockKeyhole, Shield } from './security';

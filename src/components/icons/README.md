@@ -3,9 +3,29 @@
 ## Overview
 Your Figma icons have been organized into a comprehensive React TypeScript component system. All icons are SVG-based, fully customizable, and optimized for your Next.js project.
 
-## Quick Start
+## Installation & Import
+
+For projects using the Andhera React library:
 
 ```tsx
+// Import icons from the published package
+import { 
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Search,
+  CheckCircle,
+  AlertCircle,
+  User,
+  Settings 
+} from 'andhera-react/icons';
+```
+
+For internal development:
+
+```tsx
+// Import icons from the components folder
 import { 
   AArrowDown, 
   ArrowBigLeft, 
@@ -71,21 +91,23 @@ function MyComponent() {
 - `Beer`, `BeerOff`, `ALargeSmall`, `Accessibility`
 - `Activity`, `Baby`
 
-### Interface (3 icons)
-- `BellDot`, `BellElectric`, `BellMinus`
+### Interface (9 icons)
+- `BellDot`, `BellElectric`, `BellMinus`, `BellOff`, `BellPlus`, `BellRing`, `Bell`
+- `Menu`, `X`, `Plus`, `Minus`
+- `ChevronDown`, `ChevronLeft`, `ChevronRight`
+- `WandSparkles`
 
 ## Icon Properties
 
 All icons accept these props:
 
 ```tsx
-interface IconProps {
-  size?: number;        // Default: 18
-  color?: string;       // Default: 'currentColor' 
-  strokeWidth?: number; // Default: 2
-  className?: string;   // CSS classes
-  ...props              // All standard SVG props
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  size?: number | string;  // Default: 24
+  color?: string;          // Default: 'currentColor' 
+  strokeWidth?: number;    // Default: 2
 }
+// All standard SVG props are supported (className, style, onClick, etc.)
 ```
 
 ## Usage Examples

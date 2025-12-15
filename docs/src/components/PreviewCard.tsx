@@ -10,9 +10,10 @@ interface PreviewCardProps {
   description: string;
   code: string;
   children: React.ReactNode;
+  isDatePicker?: boolean;
 }
 
-export function PreviewCard({ title, description, code, children }: PreviewCardProps) {
+export function PreviewCard({ title, description, code, children, isDatePicker = false }: PreviewCardProps) {
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
   const [copied, setCopied] = useState(false);
   const [formattedCode, setFormattedCode] = useState(code);
@@ -129,6 +130,23 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
             overflow: hidden;
           }
 
+          .preview-card-container--datepicker {
+            height: auto;
+            min-height: 400px;
+            max-height: none;
+          }
+
+          .preview-card-container--datepicker-preview {
+            overflow: visible;
+            isolation: isolate;
+          }
+
+          .preview-card-container--datepicker-code {
+            overflow: hidden;
+            height: 400px;
+            max-height: 400px;
+          }
+
           .preview-card-controls {
             position: absolute;
             top: 12px;
@@ -194,22 +212,68 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
             max-height: 340px;
           }
 
+          .preview-card-content--datepicker {
+            align-items: flex-start;
+            padding-top: 10px;
+          }
+
+          .preview-card-content--datepicker-preview {
+            overflow: visible;
+            max-height: none;
+            position: relative;
+            z-index: 1;
+          }
+
+          .preview-card-content--datepicker-code {
+            overflow: hidden;
+            max-height: 340px;
+          }
+
           .preview-card-content--code {
             padding-top: 60px;
             align-items: stretch;
+            overflow: hidden;
           }
 
           .preview-card-preview-area {
             z-index: 1;
             width: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            overflow: visible;
+            min-height: 200px;
+            text-align: center;
+          }
+
+          /* Ensure child components are centered - preserve their display type */
+          .preview-card-preview-area > * {
+            /* Don't override display - let grid/flex containers work as intended */
+          }
+
+          .preview-card-preview-area--datepicker {
+            align-items: flex-start;
+            padding-top: 10px;
+            justify-content: flex-start;
+            overflow: visible;
+            position: relative;
+            z-index: 100;
+          }
+
+          .preview-card-preview-area--datepicker > div {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            overflow: visible;
           }
 
           .preview-card-code-area {
             width: 100%;
             height: 100%;
+            max-height: 320px;
             overflow: auto;
           }
 
@@ -245,6 +309,10 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
               border-radius: 10px;
             }
 
+            .preview-card-container--datepicker {
+              min-height: 600px;
+            }
+
             .preview-card-controls {
               position: static;
               margin-bottom: 8px;
@@ -275,6 +343,21 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
               padding: 12px 4px;
             }
 
+            .preview-card-content--datepicker {
+              padding-top: 5px;
+              min-height: 540px;
+            }
+
+            .preview-card-preview-area--datepicker {
+              padding-top: 5px;
+              justify-content: flex-start;
+              min-height: 520px;
+            }
+
+            .preview-card-preview-area--datepicker > div {
+              align-items: center;
+            }
+
             .preview-card-content--code {
               padding-top: 0;
             }
@@ -302,6 +385,10 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
               border-radius: 12px;
             }
 
+            .preview-card-container--datepicker {
+              min-height: 620px;
+            }
+
             .preview-card-controls {
               position: static;
               margin-bottom: 10px;
@@ -322,6 +409,21 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
               max-height: none;
               min-height: 240px;
               padding: 16px 8px;
+            }
+
+            .preview-card-content--datepicker {
+              padding-top: 8px;
+              min-height: 560px;
+            }
+
+            .preview-card-preview-area--datepicker {
+              padding-top: 8px;
+              justify-content: flex-start;
+              min-height: 540px;
+            }
+
+            .preview-card-preview-area--datepicker > div {
+              align-items: center;
             }
 
             .preview-card-content--code {
@@ -478,7 +580,7 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
       </div>
 
       {/* Preview Container */}
-      <div className="preview-card-container">
+      <div className={`preview-card-container ${isDatePicker ? (activeTab === 'code' ? 'preview-card-container--datepicker-code' : 'preview-card-container--datepicker preview-card-container--datepicker-preview') : ''}`}>
         {/* Toggle Controls - Top Right */}
         <div className="preview-card-controls">
           {/* Copy Button */}
@@ -518,11 +620,11 @@ export function PreviewCard({ title, description, code, children }: PreviewCardP
 
         {/* Content Area */}
         <div 
-          className={`preview-card-content hide-scrollbar ${activeTab === "code" ? "preview-card-content--code" : ""}`}
+          className={`preview-card-content hide-scrollbar ${activeTab === "code" ? "preview-card-content--code" : ""} ${isDatePicker ? (activeTab === 'code' ? 'preview-card-content--datepicker preview-card-content--datepicker-code' : 'preview-card-content--datepicker preview-card-content--datepicker-preview') : ''}`}
         >
           {/* Content */}
           {activeTab === "preview" ? (
-            <div className="preview-card-preview-area">
+            <div className={`preview-card-preview-area ${isDatePicker ? 'preview-card-preview-area--datepicker' : ''}`}>
               {children}
             </div>
           ) : (

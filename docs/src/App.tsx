@@ -102,6 +102,20 @@ const AppLayout = () => {
           onMobileMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
         />
         <div style={getMainStyles()}>
+          {isMobile && !mobileMenuOpen && (
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open navigation"
+              className="fixed top-4 left-4 z-50 inline-flex items-center justify-center w-11 h-11 rounded-lg bg-[#151821] text-white border border-white/10 shadow-lg shadow-black/30 hover:bg-[#1e2535] active:scale-[0.98] transition-transform"
+            >
+              <span className="sr-only">Open navigation</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+          )}
           {/* Header hidden temporarily
           <Header 
             sidebarCollapsed={sidebarCollapsed} 

@@ -1,6 +1,45 @@
 import { useState } from "react";
 import { RadioGroup, RadioButton } from "../../../src/components/radio";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const propDefinitions: PropDefinition[] = [
+  { name: "name", type: "string", defaultValue: "-", description: "The name attribute for the radio group (required for form submission)." },
+  { name: "options", type: "RadioOption[]", defaultValue: "[]", description: "Array of options. RadioOption: { value: string; label: string; disabled?: boolean; description?: string; helperText?: string }" },
+  { name: "value", type: "string", defaultValue: "-", description: "The controlled selected value. Use with onChange for controlled component behavior." },
+  { name: "defaultValue", type: "string", defaultValue: "-", description: "The default selected value for uncontrolled usage." },
+  { name: "label", type: "string", defaultValue: "-", description: "Label text displayed above the radio group." },
+  { name: "labelClassName", type: "string", defaultValue: "-", description: "Custom class name for the group label element." },
+  { name: "onChange", type: "(value: string) => void", defaultValue: "-", description: "Callback fired when the selected value changes." },
+  { name: "onBlur", type: "(value: string) => void", defaultValue: "-", description: "Callback fired when focus leaves a radio button." },
+  { name: "onFocus", type: "(value: string) => void", defaultValue: "-", description: "Callback fired when a radio button receives focus." },
+  { name: "size", type: "'small' | 'medium' | 'large'", defaultValue: "'medium'", description: "Size of all radio buttons in the group. 'small' = 16px, 'medium' = 20px, 'large' = 24px." },
+  { name: "variant", type: "'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'", defaultValue: "'default'", description: "Color variant for the radio buttons. 'default' = gray, 'primary' = #FFCB00, 'success' = green, 'warning' = amber, 'error' = red, 'info' = blue." },
+  { name: "labelPosition", type: "'left' | 'right' | 'top' | 'bottom'", defaultValue: "'right'", description: "Position of labels relative to the radio buttons." },
+  { name: "direction", type: "'row' | 'column'", defaultValue: "'column'", description: "Layout direction of the radio buttons. 'row' = horizontal, 'column' = vertical." },
+  { name: "gap", type: "number | string", defaultValue: "12", description: "Gap between radio options. Number is treated as pixels, string allows custom units." },
+  { name: "required", type: "boolean", defaultValue: "false", description: "When true, displays a required indicator (*) next to the group label." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "When true, disables all radio buttons in the group." },
+  { name: "readOnly", type: "boolean", defaultValue: "false", description: "When true, prevents value changes but keeps the group focusable." },
+  { name: "error", type: "boolean", defaultValue: "false", description: "When true, displays the group in an error state with error styling." },
+  { name: "errorMessage", type: "string", defaultValue: "-", description: "Error message displayed below the group when error is true." },
+  { name: "helperText", type: "string", defaultValue: "-", description: "Helper text displayed below the group (hidden when error message is shown)." },
+  { name: "showRipple", type: "boolean", defaultValue: "true", description: "When true, shows a ripple effect on radio button click." },
+  { name: "className", type: "string", defaultValue: "-", description: "Custom class name for the radio group container." },
+  { name: "inputClassName", type: "string", defaultValue: "-", description: "Custom class name applied to each radio input element." },
+  { name: "optionClassName", type: "string", defaultValue: "-", description: "Custom class name applied to each option wrapper." },
+  { name: "renderOption", type: "(option: RadioOption, isSelected: boolean, radioElement: ReactNode) => ReactNode", defaultValue: "-", description: "Custom render function for each option. Receives the option data, selection state, and the default radio element." },
+  { name: "id", type: "string", defaultValue: "-", description: "ID attribute for the radio group container." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessible label for the radio group when no visible label is provided." },
+  { name: "aria-labelledby", type: "string", defaultValue: "-", description: "ID of an element that labels the radio group." },
+  { name: "aria-describedby", type: "string", defaultValue: "-", description: "ID of an element that describes the radio group." },
+];
+
 /**
  * RadioPreview Component
  * Displays all radio group variants showcasing comprehensive customization options
@@ -641,6 +680,9 @@ const options = [
             </p>
           </div>
         </PreviewCard>
+
+        {/* Props Reference */}
+        <PropsReference />
       </div>
     </>
   );
@@ -842,6 +884,62 @@ function PreviewCard({ title, description, code, children }: PreviewCardProps) {
             </pre>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+function PropsReference() {
+  return (
+    <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+          RadioGroup Props
+        </h3>
+        <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+          RadioGroup arranges radio buttons with consistent spacing, labels, and keyboard navigation.
+          It supports sizes, color variants, descriptions, and full accessibility.
+        </p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+          <thead>
+            <tr>
+              {[
+                { label: "PROP", width: "18%" },
+                { label: "TYPE", width: "24%" },
+                { label: "DEFAULT", width: "12%" },
+                { label: "DESCRIPTION", width: "46%" },
+              ].map((header) => (
+                <th
+                  key={header.label}
+                  className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                  style={{ width: header.width }}
+                >
+                  {header.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {propDefinitions.map((prop) => (
+              <tr key={prop.name}>
+                <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                  {prop.name}
+                </td>
+                <td className="p-3 border-b border-[#2B3546]">
+                  <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                  {prop.defaultValue}
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                  {prop.description}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

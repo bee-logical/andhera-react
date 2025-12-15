@@ -4,4 +4,6 @@ export { X } from './X';
 export { Plus } from './Plus';
 export { Minus } from './Minus';
 export { ChevronDown } from './ChevronDown';
+export { ChevronLeft } from './ChevronLeft';
+export { ChevronRight } from './ChevronRight';
 export { WandSparkles } from './WandSparkles';

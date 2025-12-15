@@ -2,6 +2,119 @@ import { useState } from "react";
 import { Slider } from "../../../src/components/slider";
 import { PreviewCard as SharedPreviewCard } from "../components/PreviewCard";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const propDefinitions: PropDefinition[] = [
+  { name: "min", type: "number", defaultValue: "0", description: "Minimum value of the slider." },
+  { name: "max", type: "number", defaultValue: "100", description: "Maximum value of the slider." },
+  { name: "step", type: "number", defaultValue: "1", description: "Step increment for value changes. Use decimal values for precise control." },
+  { name: "value", type: "number", defaultValue: "-", description: "Current value for controlled mode. Use with onChange." },
+  { name: "defaultValue", type: "number", defaultValue: "min", description: "Default value for uncontrolled mode." },
+  { name: "onChange", type: "(value: number) => void", defaultValue: "-", description: "Callback fired when value changes." },
+  { name: "onChangeStart", type: "(value: number) => void", defaultValue: "-", description: "Callback fired when dragging starts." },
+  { name: "onChangeEnd", type: "(value: number) => void", defaultValue: "-", description: "Callback fired when dragging ends." },
+  { name: "disabled", type: "boolean", defaultValue: "false", description: "When true, disables the slider and prevents interaction." },
+  { name: "readOnly", type: "boolean", defaultValue: "false", description: "When true, makes the slider read-only but still focusable." },
+  { name: "orientation", type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: "Orientation of the slider." },
+  { name: "variant", type: "'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'dark'", defaultValue: "'primary'", description: "Color variant for the slider appearance." },
+  { name: "size", type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: "Size of the slider." },
+  { name: "showTooltip", type: "boolean", defaultValue: "false", description: "When true, always shows tooltip with current value." },
+  { name: "showTooltipOnDrag", type: "boolean", defaultValue: "false", description: "When true, shows tooltip only while dragging." },
+  { name: "tooltipPosition", type: "'top' | 'bottom' | 'left' | 'right'", defaultValue: "'top'", description: "Position of the tooltip." },
+  { name: "tooltipFormat", type: "(value: number) => string", defaultValue: "-", description: "Custom formatter function for tooltip text." },
+  { name: "label", type: "string", defaultValue: "-", description: "Label text displayed above the slider." },
+  { name: "required", type: "boolean", defaultValue: "false", description: "When true, displays a required indicator (*) next to the label." },
+  { name: "description", type: "string", defaultValue: "-", description: "Description text displayed below the slider." },
+  { name: "helperText", type: "string", defaultValue: "-", description: "Helper text displayed below the slider (hidden when error is shown)." },
+  { name: "error", type: "boolean", defaultValue: "false", description: "When true, displays the slider in error state." },
+  { name: "errorMessage", type: "string", defaultValue: "-", description: "Error message displayed below the slider when error is true." },
+  { name: "showSteps", type: "boolean", defaultValue: "false", description: "When true, shows step markers on the track." },
+  { name: "marks", type: "SliderMark[]", defaultValue: "-", description: "Custom marks to display on the track. Overrides showSteps." },
+  { name: "showValueLabels", type: "boolean", defaultValue: "false", description: "When true, shows min/max and current value labels." },
+  { name: "range", type: "boolean", defaultValue: "false", description: "When true, enables range selection with two thumbs." },
+  { name: "valueStart", type: "number", defaultValue: "-", description: "Start value for range slider in controlled mode." },
+  { name: "valueEnd", type: "number", defaultValue: "-", description: "End value for range slider in controlled mode." },
+  { name: "onRangeChange", type: "(start: number, end: number) => void", defaultValue: "-", description: "Callback fired when range values change." },
+  { name: "inverted", type: "boolean", defaultValue: "false", description: "When true, inverts the slider direction." },
+  { name: "trackWidth", type: "number | string", defaultValue: "400", description: "Width of the slider track in pixels or CSS value." },
+  { name: "trackHeight", type: "number | string", defaultValue: "320", description: "Height of the slider track (for vertical orientation)." },
+  { name: "className", type: "string", defaultValue: "-", description: "Custom class name for the container." },
+  { name: "trackClassName", type: "string", defaultValue: "-", description: "Custom class name for the track element." },
+  { name: "thumbClassName", type: "string", defaultValue: "-", description: "Custom class name for the thumb element(s)." },
+  { name: "fillClassName", type: "string", defaultValue: "-", description: "Custom class name for the filled track portion." },
+  { name: "labelClassName", type: "string", defaultValue: "-", description: "Custom class name for the label element." },
+  { name: "tooltipClassName", type: "string", defaultValue: "-", description: "Custom class name for the tooltip element." },
+  { name: "descriptionClassName", type: "string", defaultValue: "-", description: "Custom class name for the description/helper text." },
+  { name: "stepClassName", type: "string", defaultValue: "-", description: "Custom class name for step markers." },
+  { name: "id", type: "string", defaultValue: "-", description: "ID attribute for the slider." },
+  { name: "name", type: "string", defaultValue: "-", description: "Name attribute for form submission." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessible label when no visible label is provided." },
+  { name: "aria-labelledby", type: "string", defaultValue: "-", description: "ID of an element that labels the slider." },
+  { name: "aria-describedby", type: "string", defaultValue: "-", description: "ID of an element that describes the slider." },
+  { name: "aria-valuetext", type: "string", defaultValue: "-", description: "Accessible text announcing value changes (for screen readers)." },
+];
+
+function PropsReference() {
+  return (
+    <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+          Slider Props
+        </h3>
+        <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+          Slider is a flexible input component for selecting values from a range.
+          It supports single value, range selection, vertical orientation, and extensive customization options.
+        </p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+          <thead>
+            <tr>
+              {[
+                { label: "Prop", width: "18%" },
+                { label: "Type", width: "24%" },
+                { label: "Default", width: "12%" },
+                { label: "Description", width: "46%" },
+              ].map((header) => (
+                <th
+                  key={header.label}
+                  className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                  style={{ width: header.width }}
+                >
+                  {header.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {propDefinitions.map((prop) => (
+              <tr key={prop.name}>
+                <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                  {prop.name}
+                </td>
+                <td className="p-3 border-b border-[#2B3546]">
+                  <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                  {prop.defaultValue}
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                  {prop.description}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 /**
  * SliderPreview Component
  * Displays all slider variants showcasing comprehensive customization options
@@ -59,7 +172,7 @@ export function Example() {
   );
 }`}
       >
-        <div className="w-[300px]">
+        <div className="w-[300px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -85,7 +198,7 @@ export function Example() {
 // Large - accessibility/emphasis
 <Slider size="lg" value={75} label="Large" />`}
       >
-        <div className="flex flex-col gap-6 w-[300px]">
+        <div className="flex flex-col gap-6 w-[300px] mx-auto">
           <Slider
             size="sm"
             min={0}
@@ -125,7 +238,7 @@ export function Example() {
 <Slider variant="danger" value={80} label="Danger" />
 <Slider variant="info" value={35} label="Info" />`}
       >
-        <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+        <div className="grid grid-cols-2 gap-x-12 gap-y-6 mx-auto w-fit">
           <div className="w-[250px]">
             <Slider
               variant="default"
@@ -134,7 +247,7 @@ export function Example() {
               value={variantValues.default}
               onChange={(val) => setVariantValues(prev => ({ ...prev, default: val }))}
               label="Default"
-              trackWidth={200}
+              trackWidth={220}
             />
           </div>
           <div className="w-[250px]">
@@ -145,7 +258,7 @@ export function Example() {
               value={variantValues.primary}
               onChange={(val) => setVariantValues(prev => ({ ...prev, primary: val }))}
               label="Primary"
-              trackWidth={200}
+              trackWidth={220}
             />
           </div>
           <div className="w-[250px]">
@@ -156,7 +269,7 @@ export function Example() {
               value={variantValues.success}
               onChange={(val) => setVariantValues(prev => ({ ...prev, success: val }))}
               label="Success"
-              trackWidth={200}
+              trackWidth={220}
             />
           </div>
           <div className="w-[250px]">
@@ -167,7 +280,7 @@ export function Example() {
               value={variantValues.warning}
               onChange={(val) => setVariantValues(prev => ({ ...prev, warning: val }))}
               label="Warning"
-              trackWidth={200}
+              trackWidth={220}
             />
           </div>
           <div className="w-[250px]">
@@ -178,7 +291,7 @@ export function Example() {
               value={variantValues.danger}
               onChange={(val) => setVariantValues(prev => ({ ...prev, danger: val }))}
               label="Danger"
-              trackWidth={200}
+              trackWidth={220}
             />
           </div>
           <div className="w-[250px]">
@@ -189,7 +302,7 @@ export function Example() {
               value={variantValues.info}
               onChange={(val) => setVariantValues(prev => ({ ...prev, info: val }))}
               label="Info"
-              trackWidth={200}
+              trackWidth={220}
             />
           </div>
         </div>
@@ -217,7 +330,7 @@ export function Example() {
   );
 }`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             range
             min={0}
@@ -258,29 +371,31 @@ export function Example() {
   variant="success"
 />`}
       >
-        <div className="flex gap-12 items-start h-[250px]">
-          <Slider
-            orientation="vertical"
-            min={0}
-            max={100}
-            value={verticalValue}
-            onChange={setVerticalValue}
-            label="Volume"
-            trackHeight={200}
-            showValueLabels
-          />
-          <Slider
-            orientation="vertical"
-            range
-            min={0}
-            max={100}
-            valueStart={verticalRange.start}
-            valueEnd={verticalRange.end}
-            onRangeChange={(start, end) => setVerticalRange({ start, end })}
-            label="EQ Range"
-            variant="success"
-            trackHeight={200}
-          />
+        <div className="flex gap-16 items-end justify-center h-[260px] mx-auto w-fit">
+          <div className="flex flex-col items-center">
+            <Slider
+              orientation="vertical"
+              min={0}
+              max={100}
+              value={verticalValue}
+              onChange={setVerticalValue}
+              label="Volume"
+              trackHeight={200}
+            />
+          </div>
+          <div className="flex flex-col items-center">
+            <Slider
+              orientation="vertical"
+              range
+              min={0}
+              max={100}
+              valueStart={verticalRange.start}
+              valueEnd={verticalRange.end}
+              onRangeChange={(start, end) => setVerticalRange({ start, end })}
+              variant="success"
+              trackHeight={200}
+            />
+          </div>
         </div>
       </SharedPreviewCard>
 
@@ -345,7 +460,7 @@ export function Example() {
   label="With Step Markers"
 />`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -382,7 +497,7 @@ const marks: SliderMark[] = [
   label="Temperature"
 />`}
       >
-        <div className="w-[400px]">
+        <div className="w-[400px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -415,7 +530,7 @@ const marks: SliderMark[] = [
   label="Inverted Slider"
 />`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -442,7 +557,7 @@ const marks: SliderMark[] = [
 // Read-only - focusable but unchangeable
 <Slider readOnly value={60} label="Read Only" />`}
       >
-        <div className="flex flex-col gap-6 w-[300px]">
+        <div className="flex flex-col gap-6 w-[300px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -484,7 +599,7 @@ const marks: SliderMark[] = [
   required
 />`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -513,7 +628,7 @@ const marks: SliderMark[] = [
   value={60}
 />`}
       >
-        <div className="flex flex-col gap-6 w-[350px]">
+        <div className="flex flex-col gap-6 w-[350px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -547,7 +662,7 @@ const marks: SliderMark[] = [
   max={10}
 />`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             min={1}
             max={10}
@@ -582,7 +697,7 @@ const marks: SliderMark[] = [
   label="Tall"
 />`}
       >
-        <div className="flex flex-col gap-6 w-full">
+        <div className="flex flex-col gap-6 w-full max-w-[500px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -624,7 +739,7 @@ export function Example() {
   );
 }`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -673,7 +788,7 @@ export function Example() {
   label="Custom Styled"
 />`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -712,7 +827,7 @@ export function Example() {
 // PageUp: Increase by 10x step
 // PageDown: Decrease by 10x step`}
       >
-        <div className="w-[350px]">
+        <div className="w-[350px] mx-auto">
           <Slider
             min={0}
             max={100}
@@ -727,6 +842,9 @@ export function Example() {
           />
         </div>
       </SharedPreviewCard>
+
+      {/* Props Reference */}
+      <PropsReference />
     </div>
   );
 }

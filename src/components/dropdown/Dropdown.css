@@ -1,0 +1,168 @@
+/* Dropdown Component Styles */
+
+/* Animations */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdownFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdownSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes dropdownScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dropdownScaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Animation Classes */
+.dropdown-animate-fadeIn {
+  animation: dropdownFadeIn 0.2s ease-out forwards;
+}
+
+.dropdown-animate-fadeOut {
+  animation: dropdownFadeOut 0.2s ease-out forwards;
+}
+
+.dropdown-animate-slideIn {
+  animation: dropdownSlideIn 0.25s ease-out forwards;
+}
+
+.dropdown-animate-slideOut {
+  animation: dropdownSlideOut 0.25s ease-out forwards;
+}
+
+.dropdown-animate-scaleIn {
+  animation: dropdownScaleIn 0.2s ease-out forwards;
+}
+
+.dropdown-animate-scaleOut {
+  animation: dropdownScaleOut 0.2s ease-out forwards;
+}
+
+/* Scrollbar Styling */
+.dropdown-scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.dropdown-scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.dropdown-scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdown-scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown-scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #4B5563;
+  border-radius: 4px;
+}
+
+.dropdown-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+.dropdown-scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #4B5563 transparent;
+}
+
+/* Loading Spinner */
+@keyframes dropdownSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dropdown-animate-spin {
+  animation: dropdownSpin 1s linear infinite;
+}
+
+/* Focus Visible Outline */
+.dropdown-focus-visible:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+/* Transition Classes */
+.dropdown-transition-all {
+  transition: all 0.2s ease;
+}
+
+.dropdown-transition-colors {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dropdown-transition-transform {
+  transition: transform 0.2s ease;
+}
+
+/* Menu Positioning */
+.dropdown-menu-up {
+  bottom: 100%;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.dropdown-menu-down {
+  top: 100%;
+  margin-top: 8px;
+  margin-bottom: 0;
+}

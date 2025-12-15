@@ -1,6 +1,63 @@
 import { useState } from "react";
 import { Dialog } from "../../../src/components/dialog/BeeDialog";
 
+interface PropDefinition {
+  name: string;
+  type: string;
+  defaultValue: string;
+  description: string;
+}
+
+const propDefinitions: PropDefinition[] = [
+  { name: "open", type: "boolean", defaultValue: "-", description: "Controls whether the dialog is visible (required)." },
+  { name: "onClose", type: "() => void", defaultValue: "-", description: "Callback fired when the dialog should be closed (required)." },
+  { name: "title", type: "ReactNode", defaultValue: "-", description: "Title displayed in the dialog header." },
+  { name: "description", type: "ReactNode", defaultValue: "-", description: "Subtitle text displayed below the title." },
+  { name: "children", type: "ReactNode", defaultValue: "-", description: "Dialog content (required)." },
+  { name: "actions", type: "ReactNode", defaultValue: "-", description: "Action buttons displayed in the dialog footer." },
+  { name: "size", type: "'xs' | 'small' | 'medium' | 'large' | 'xl' | 'full'", defaultValue: "'medium'", description: "Size of the dialog." },
+  { name: "position", type: "'center' | 'top' | 'bottom'", defaultValue: "'center'", description: "Position of the dialog on screen." },
+  { name: "animation", type: "'fade' | 'scale' | 'slide-up' | 'slide-down' | 'none'", defaultValue: "'scale'", description: "Animation type for entrance/exit." },
+  { name: "animationDuration", type: "number", defaultValue: "300", description: "Animation duration in milliseconds." },
+  { name: "closeOnBackdropClick", type: "boolean", defaultValue: "true", description: "Whether clicking the backdrop closes the dialog." },
+  { name: "closeOnEscape", type: "boolean", defaultValue: "true", description: "Whether pressing Escape key closes the dialog." },
+  { name: "showCloseButton", type: "boolean", defaultValue: "true", description: "Whether to show the close button in the header." },
+  { name: "closeIcon", type: "ReactNode", defaultValue: "-", description: "Custom icon for the close button." },
+  { name: "icon", type: "ReactNode", defaultValue: "-", description: "Icon displayed before the title." },
+  { name: "iconColor", type: "string", defaultValue: "-", description: "Color for the title icon (CSS color value)." },
+  { name: "blurBackdrop", type: "boolean", defaultValue: "true", description: "Whether to apply blur effect to the backdrop." },
+  { name: "backdropColor", type: "string", defaultValue: "-", description: "Custom backdrop color (CSS color value)." },
+  { name: "backdropClassName", type: "string", defaultValue: "-", description: "Additional CSS classes for the backdrop." },
+  { name: "preventScroll", type: "boolean", defaultValue: "true", description: "Whether to prevent body scroll when dialog is open." },
+  { name: "scrollable", type: "boolean", defaultValue: "true", description: "Whether the content area should be scrollable." },
+  { name: "maxHeight", type: "string", defaultValue: "-", description: "Custom max height for the dialog (CSS value)." },
+  { name: "minHeight", type: "string", defaultValue: "-", description: "Custom min height for the dialog (CSS value)." },
+  { name: "width", type: "string", defaultValue: "-", description: "Custom width for the dialog (CSS value, overrides size)." },
+  { name: "borderRadius", type: "string", defaultValue: "-", description: "Custom border radius for the dialog (CSS value)." },
+  { name: "contentPadding", type: "string", defaultValue: "-", description: "Custom padding for dialog content (CSS value)." },
+  { name: "showHeaderDivider", type: "boolean", defaultValue: "true", description: "Whether to show a divider between header and content." },
+  { name: "showFooterDivider", type: "boolean", defaultValue: "true", description: "Whether to show a divider between content and footer." },
+  { name: "footerAlign", type: "'left' | 'center' | 'right' | 'space-between'", defaultValue: "'right'", description: "Alignment of action buttons in the footer." },
+  { name: "fullscreenOnMobile", type: "boolean", defaultValue: "false", description: "Whether the dialog should be fullscreen on mobile devices." },
+  { name: "zIndex", type: "number", defaultValue: "9999", description: "Z-index for the dialog overlay." },
+  { name: "trapFocus", type: "boolean", defaultValue: "true", description: "Whether to trap focus within the dialog." },
+  { name: "restoreFocus", type: "boolean", defaultValue: "true", description: "Whether to restore focus to trigger element on close." },
+  { name: "initialFocus", type: "string", defaultValue: "-", description: "CSS selector for the element to focus when dialog opens." },
+  { name: "onAfterOpen", type: "() => void", defaultValue: "-", description: "Callback fired after the dialog has finished opening animation." },
+  { name: "onAfterClose", type: "() => void", defaultValue: "-", description: "Callback fired after the dialog has finished closing animation." },
+  { name: "className", type: "string", defaultValue: "-", description: "Additional CSS classes for the dialog container." },
+  { name: "headerClassName", type: "string", defaultValue: "-", description: "Additional CSS classes for the header." },
+  { name: "contentClassName", type: "string", defaultValue: "-", description: "Additional CSS classes for the content area." },
+  { name: "footerClassName", type: "string", defaultValue: "-", description: "Additional CSS classes for the footer." },
+  { name: "style", type: "React.CSSProperties", defaultValue: "-", description: "Custom inline styles for the dialog." },
+  { name: "headerStyle", type: "React.CSSProperties", defaultValue: "-", description: "Custom inline styles for the header." },
+  { name: "contentStyle", type: "React.CSSProperties", defaultValue: "-", description: "Custom inline styles for the content area." },
+  { name: "footerStyle", type: "React.CSSProperties", defaultValue: "-", description: "Custom inline styles for the footer." },
+  { name: "aria-label", type: "string", defaultValue: "-", description: "Accessible label for the dialog." },
+  { name: "aria-describedby", type: "string", defaultValue: "-", description: "ID of element that describes the dialog." },
+  { name: "data-testid", type: "string", defaultValue: "-", description: "Test ID for automated testing." },
+];
+
 /**
  * DialogPreview Component
  * Displays all dialog variants showcasing comprehensive customization options
@@ -1073,6 +1130,9 @@ export function Example() {
             </p>
           </div>
         </PreviewCard>
+
+        {/* Props Reference */}
+        <PropsReference />
       </div>
     </>
   );
@@ -1274,6 +1334,62 @@ function PreviewCard({ title, description, code, children }: PreviewCardProps) {
             </pre>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+function PropsReference() {
+  return (
+    <div className="w-full bg-white/[0.04] border border-[#364153] rounded-2xl p-6 flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <h3 className="font-manrope text-xl font-semibold m-0 text-white">
+          Dialog Props
+        </h3>
+        <p className="m-0 text-[#AEB6C4] text-sm leading-relaxed">
+          Dialog is an enterprise-level modal component with comprehensive customization. It supports multiple sizes, 
+          animations, positions, and built-in accessibility features including focus trapping, Escape key handling, and ARIA attributes.
+        </p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse min-w-[640px] font-manrope text-sm text-[#E3E6F2]">
+          <thead>
+            <tr>
+              {[
+                { label: "PROP", width: "18%" },
+                { label: "TYPE", width: "24%" },
+                { label: "DEFAULT", width: "12%" },
+                { label: "DESCRIPTION", width: "46%" },
+              ].map((header) => (
+                <th
+                  key={header.label}
+                  className="text-left p-3 text-xs tracking-wider uppercase text-[#99A1AF] border-b border-[#364153]"
+                  style={{ width: header.width }}
+                >
+                  {header.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {propDefinitions.map((prop) => (
+              <tr key={prop.name}>
+                <td className="p-3 border-b border-[#2B3546] font-medium text-white">
+                  {prop.name}
+                </td>
+                <td className="p-3 border-b border-[#2B3546]">
+                  <code className="text-xs bg-gray-800/50 px-2 py-1 rounded">{prop.type}</code>
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7]">
+                  {prop.defaultValue}
+                </td>
+                <td className="p-3 border-b border-[#2B3546] text-[#C7CBD7] leading-relaxed">
+                  {prop.description}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
